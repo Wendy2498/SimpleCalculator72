@@ -24,8 +24,6 @@ namespace SimpleCalculator
             InitializeComponent();
         }
 
-
-
         private void btnCalculate_Click(object sender, EventArgs e)
         //Add try-catch statement. Catch any exceptions.
         {
@@ -91,13 +89,13 @@ namespace SimpleCalculator
             errorMessage += IsPresent(txtOperator.Text, txtOperator.Tag.ToString());
             errorMessage += IsDecimal(txtOperator.Text, txtOperator.Tag.ToString());
             errorMessage += IsOperator(txtOperand1.Text, txtOperand1.Tag.ToString());
-            //errorMessage += IsValidOperation(txtOperator.Text, txtOperator.Tag.ToString()); 
+            errorMessage += IsValidOperation(txtOperator.Text, txtOperator.Tag.ToString());
 
             // testing for Operand2
             errorMessage += IsPresent(txtOperand2.Text, txtOperand2.Tag.ToString());
             errorMessage += IsDecimal(txtOperand2.Text, txtOperand2.Tag.ToString());
             errorMessage += IsWithinRange(txtOperand2.Text, txtOperand2.Tag.ToString(), 0, 1000000);
-            //errorMessage += IsValidOperation(txtOperand2.Text, txtOperand2.Tag.ToString());  
+            errorMessage += IsValidOperation(txtOperand2.Text, txtOperand2.Tag.ToString());
 
             if (errorMessage != "")
             {
@@ -129,6 +127,7 @@ namespace SimpleCalculator
             }
             return msg;
         }
+
 
         //IsWithinRange method ensures values are in proper range
         private string IsWithinRange(string value, string name, decimal min, decimal max)
