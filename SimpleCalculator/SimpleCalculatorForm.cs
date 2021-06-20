@@ -38,9 +38,11 @@ namespace SimpleCalculator
 
                     result = Math.Round(result, 4);
                     this.txtResult.Text = result.ToString();
+
                     txtOperand1.Focus();
                 }
             }
+            //Step 6A. Delete catch blocks except Exception
             ////Add 3 more catch blocks
             ////catch format exceptions with message box
             //catch (FormatException)
@@ -66,36 +68,44 @@ namespace SimpleCalculator
             catch (Exception ex)
             {
                 //Message box with message, type & stack trace
-                MessageBox.Show(ex.Message + "\n\n" +
-                ex.GetType().ToString() + "\n" +
-                ex.StackTrace, "Exception");
+                MessageBox.Show(
+                    ex.Message + "\n\n" +
+                    ex.GetType().ToString() + "\n" +
+                    ex.StackTrace, "Exception");
             }
         }
 
-
-        //STEP 6: isValiddata method calls methods
-
+        //STEP 5: isValidData method calls methods to check user entries
         private bool IsValidData()
         {
-            bool success = true;
-            string errorMessage = "";
+            bool success = true;            //variable success is Boolean determining if validation is successful
+            string errorMessage = "";      //variable errorMessage stores any error message
 
-            // testing for Operand1 
-            errorMessage += IsPresent(txtOperand1.Text, txtOperand1.Tag.ToString());
-            errorMessage += IsDecimal(txtOperand1.Text, txtOperand1.Tag.ToString());
-            errorMessage += IsWithinRange(txtOperand1.Text, txtOperand1.Tag.ToString(), 0, 1000000);
+            //Validate Operand1
+            errorMessage += IsPresent(txtOperand1.Text,
+                                    txtOperand1.Tag.ToString());
+            errorMessage += IsDecimal(txtOperand1.Text,
+                                    txtOperand1.Tag.ToString());
+            errorMessage += IsWithinRange(txtOperand1.Text,
+                                          txtOperand1.Tag.ToString(),
+                                          0, 1000000);
 
-            // testing for Operator
-            errorMessage += IsPresent(txtOperator.Text, txtOperator.Tag.ToString());
-            errorMessage += IsDecimal(txtOperator.Text, txtOperator.Tag.ToString());
-            errorMessage += IsOperator(txtOperand1.Text, txtOperand1.Tag.ToString());
-            errorMessage += IsValidOperation(txtOperator.Text, txtOperator.Tag.ToString());
+            //Validate Operator
+            errorMessage += IsPresent(txtOperator.Text,
+                                      txtOperator.Tag.ToString());
+            errorMessage += IsValidOperation(txtOperator.Text,
+                                            txtOperator.Tag.ToString());
 
-            // testing for Operand2
-            errorMessage += IsPresent(txtOperand2.Text, txtOperand2.Tag.ToString());
-            errorMessage += IsDecimal(txtOperand2.Text, txtOperand2.Tag.ToString());
-            errorMessage += IsWithinRange(txtOperand2.Text, txtOperand2.Tag.ToString(), 0, 1000000);
-            errorMessage += IsValidOperation(txtOperand2.Text, txtOperand2.Tag.ToString());
+            //Validate Operand2
+            errorMessage += IsPresent(txtOperand2.Text,
+                                    txtOperand2.Tag.ToString());
+            errorMessage += IsDecimal(txtOperand2.Text,
+                                    txtOperand2.Tag.ToString());
+            errorMessage += IsWithinRange(txtOperand2.Text,
+                                          txtOperand2.Tag.ToString(),
+                                          0, 1000000);
+            errorMessage += IsValidOperation(txtOperand2.Text,
+                                            txtOperand2.Tag.ToString());
 
             if (errorMessage != "")
             {
@@ -105,8 +115,9 @@ namespace SimpleCalculator
             return success;
         }
 
-        //Step 2 Code 3 methods
-        //IsPresent method verifies that fields aren't empty
+        //Step 2. Code 3 methods: IsPresent(), IsDecimal(), IsWithinRange()
+
+        //Step 2A. IsPresent() method verifies that fields aren't empty
         private string IsPresent(string value, string name)
         {
             string msg = "";
@@ -117,10 +128,10 @@ namespace SimpleCalculator
             return msg;
         }
 
-        // IsDecimal method ensures values are decimals
+        //Step 2B. IsDecimal() method ensures values are decimals
         private string IsDecimal(string value, string name)
-        {      //declaring variable for message
-            string msg = "";
+        {
+            string msg = "";                 //declaring variable for message
             if (!Decimal.TryParse(value, out decimal number))
             {
                 msg += name + " must be a vaild decimal value.\n";
@@ -128,22 +139,22 @@ namespace SimpleCalculator
             return msg;
         }
 
-
-        //IsWithinRange method ensures values are in proper range
+        //Step 2C. IsWithinRange() method ensures values are in proper range
         private string IsWithinRange(string value, string name, decimal min, decimal max)
         {
             string msg = "";
             if (Decimal.TryParse(value, out decimal number))
             {
                 if (number < min || number > max)
+                {
                     msg += name + " must be between " + min + " and " + max + ".\n";
-
+                }
             }
             return msg;
         }
 
-        //Step 3 Code method IsOperator
-        //IsOperator checks that value is + - * or /
+        //Step 3. Code method IsOperator()
+        //IsOperator() checks that value is + - * or /
         private string IsOperator(string value, string name)        
         {                                                     
             string msg = "";
@@ -154,8 +165,8 @@ namespace SimpleCalculator
             return msg;
         }
 
-        //Step 4 Code method IsValidOperation
-        //IsOperation checks for divide by zero operation
+        //Step 4. Code method IsValidOperation()
+        //IsOperation() checks for divide by zero operation
         private string IsValidOperation(string value, string name)
         {
             string msg = "";
@@ -165,22 +176,6 @@ namespace SimpleCalculator
             }
             return msg;
         }
-
-
-        //Step 5 Code method IsValidData
-        //IsValidData checks Operand1 & Operand2 entry 
-        private string IsValidData(string value, string name, decimal min, decimal max)
-        {
-            string msg = "";
-            if (Decimal.TryParse(value, out decimal number))
-            {
-                if (number < min || number > max)
-                    msg += name + " must be between " + min + " and " + max + ".\n";
-
-            }
-            return msg;
-        }
-
 
         private decimal Calculate(decimal operand1, string operator1,
             decimal operand2)
